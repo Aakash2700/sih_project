@@ -12,7 +12,7 @@ from fastapi import WebSocket, WebSocketDisconnect
 import os
 import random
 import joblib
-
+import uvicorn
 # -------------------- CONFIG --------------------
 SECRET_KEY = os.environ.get("SECRET_KEY", "supersecretkey") # change this in production
 ALGORITHM = "HS256"
@@ -31,6 +31,12 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+if __name__ == "__main__":
+    uvicorn.run(
+        "main:app",
+        host="0.0.0.0",
+        port=int(os.environ.get("PORT", 8000))
+    )
 
 # -------------------- WEBSOCKET MANAGER --------------------
 class ConnectionManager:
